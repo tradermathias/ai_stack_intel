@@ -395,10 +395,10 @@ except ImportError:
 app = Dash(
     __name__,
     external_stylesheets=[
-        "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap",
+        "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap",
         dbc.themes.DARKLY if HAS_DBC else ""
     ] if HAS_DBC else [
-        "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap"
+        "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
     ],
     title="AI Stack Benchmark Dashboard",
     suppress_callback_exceptions=True
@@ -414,117 +414,142 @@ app.index_string = '''
         {%favicon%}
         {%css%}
         <style>
-            body { margin: 0; padding: 0; background: #090D1A; }
-            ::-webkit-scrollbar { width: 6px; }
-            ::-webkit-scrollbar-track { background: #090D1A; }
-            ::-webkit-scrollbar-thumb { background: #1E3A6E; border-radius: 3px; }
+            * { box-sizing: border-box; }
+            body { margin: 0; padding: 0; background: #060B18; font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif; }
+            ::-webkit-scrollbar { width: 5px; }
+            ::-webkit-scrollbar-track { background: #060B18; }
+            ::-webkit-scrollbar-thumb { background: #1E3A6E; border-radius: 10px; }
 
-            /* ── Dash 2.x Dropdown dark theme ── */
+            /* ── Dropdowns: clean white with dark text, no CSS fighting ── */
             .dash-dropdown .Select-control,
             .Select-control {
-                background-color: #0A1225 !important;
-                border-color: #1E3A6E !important;
-                color: #E8EDF5 !important;
+                background-color: #FFFFFF !important;
+                border: 1px solid #CBD5E1 !important;
+                border-radius: 6px !important;
+                color: #1E293B !important;
+                box-shadow: none !important;
+                min-height: 36px !important;
             }
             .dash-dropdown .Select-control:hover,
-            .Select-control:hover { border-color: #2E6DA4 !important; }
-
-            /* The actual visible selected text */
+            .Select-control:hover {
+                border-color: #94A3B8 !important;
+            }
             .dash-dropdown .Select-value-label,
             .Select-value-label,
-            .dash-dropdown .Select--single .Select-value .Select-value-label,
             .Select--single .Select-value .Select-value-label,
-            .dash-dropdown div[class*="singleValue"],
-            div[class*="singleValue"] {
-                color: #E8EDF5 !important;
+            .dash-dropdown .Select--single > .Select-control .Select-value .Select-value-label {
+                color: #1E293B !important;
+                font-family: "Inter", sans-serif !important;
+                font-size: 13px !important;
+                font-weight: 500 !important;
+                line-height: 34px !important;
             }
-
-            /* Dropdown menu container */
-            .dash-dropdown .Select-menu-outer,
-            .Select-menu-outer,
-            .dash-dropdown div[class*="menu"],
-            div[class*="menu"] {
-                background-color: #0A1225 !important;
-                border-color: #1E3A6E !important;
+            .Select-placeholder {
+                color: #94A3B8 !important;
+                font-family: "Inter", sans-serif !important;
+                font-size: 13px !important;
+                line-height: 34px !important;
+            }
+            .Select-input > input {
+                color: #1E293B !important;
+                font-family: "Inter", sans-serif !important;
+                font-size: 13px !important;
+            }
+            .Select-menu-outer {
+                background-color: #FFFFFF !important;
+                border: 1px solid #CBD5E1 !important;
+                border-radius: 6px !important;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.15) !important;
                 z-index: 9999 !important;
+                margin-top: 4px !important;
             }
-
-            /* Menu items */
-            .dash-dropdown .Select-option,
-            .Select-option,
-            .dash-dropdown div[class*="option"],
-            div[class*="option"] {
-                background-color: #0A1225 !important;
-                color: #C8D8F0 !important;
+            .Select-option {
+                background-color: #FFFFFF !important;
+                color: #1E293B !important;
+                font-family: "Inter", sans-serif !important;
+                font-size: 13px !important;
+                padding: 9px 14px !important;
             }
-            .dash-dropdown .Select-option:hover,
             .Select-option:hover,
-            .dash-dropdown .Select-option.is-focused,
-            .Select-option.is-focused,
-            .dash-dropdown div[class*="option"]:hover,
-            div[class*="option"]:hover {
-                background-color: #1E3A6E !important;
-                color: #FFFFFF !important;
+            .Select-option.is-focused {
+                background-color: #F1F5F9 !important;
+                color: #0F172A !important;
             }
-            .dash-dropdown .Select-option.is-selected,
             .Select-option.is-selected {
-                background-color: #1A3A8C !important;
-                color: #FFFFFF !important;
+                background-color: #EFF6FF !important;
+                color: #1D4ED8 !important;
+                font-weight: 600 !important;
+            }
+            .Select-arrow-zone .Select-arrow {
+                border-top-color: #64748B !important;
             }
 
-            /* Placeholder */
-            .dash-dropdown .Select-placeholder,
-            .Select-placeholder,
-            .dash-dropdown div[class*="placeholder"],
-            div[class*="placeholder"] { color: #8899CC !important; }
-
-            /* Input text when searching */
-            .dash-dropdown .Select-input > input,
-            .Select-input > input { color: #E8EDF5 !important; background: transparent !important; }
-
-            /* Arrow indicator */
-            .Select-arrow { border-top-color: #5B8DD9 !important; }
-            .is-open .Select-arrow { border-bottom-color: #5B8DD9 !important; }
+            /* ── Global font override ── */
+            .dash-tab, .tab-container, button, label, p, h1, h2, h3, span, td, th {
+                font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
+            }
 
             /* ── Data tables ── */
             .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner td {
                 background-color: #0D1530 !important;
-                color: #E8EDF5 !important;
+                color: #E2E8F0 !important;
                 border-color: #1E3A6E !important;
-                font-family: "Space Mono", monospace !important;
+                font-family: "DM Mono", monospace !important;
                 font-size: 12px !important;
             }
             .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner th {
                 background-color: #0A1225 !important;
-                color: #5B8DD9 !important;
+                color: #60A5FA !important;
                 border-color: #1E3A6E !important;
-                font-family: "Syne", sans-serif !important;
+                font-family: "Inter", sans-serif !important;
                 font-size: 11px !important;
-                letter-spacing: 1px;
+                font-weight: 600 !important;
+                letter-spacing: 0.8px;
                 text-transform: uppercase;
             }
 
-            /* ── Tab bar ── */
-            .dash-tab { transition: all 0.2s ease; }
-            .dash-tab:hover { color: #8AABDD !important; }
+            /* ── Tab transitions ── */
+            .dash-tab { transition: color 0.15s ease !important; }
 
-            /* ── AI Analysis card animations ── */
-            .ai-section-card { animation: fadeSlideIn 0.4s ease forwards; }
-            @keyframes fadeSlideIn {
-                from { opacity: 0; transform: translateY(12px); }
+            /* ── AI section cards ── */
+            .ai-section-card {
+                animation: fadeUp 0.35s ease forwards;
+                opacity: 0;
+            }
+            .ai-section-card:nth-child(1) { animation-delay: 0.05s; }
+            .ai-section-card:nth-child(2) { animation-delay: 0.10s; }
+            .ai-section-card:nth-child(3) { animation-delay: 0.15s; }
+            .ai-section-card:nth-child(4) { animation-delay: 0.20s; }
+            .ai-section-card:nth-child(5) { animation-delay: 0.25s; }
+            @keyframes fadeUp {
+                from { opacity: 0; transform: translateY(10px); }
                 to   { opacity: 1; transform: translateY(0); }
             }
-            .ai-metric-pill {
-                display: inline-block;
-                padding: 3px 10px;
-                border-radius: 12px;
+            .ai-pill {
+                display: inline-flex;
+                align-items: center;
+                padding: 3px 12px;
+                border-radius: 20px;
                 font-size: 11px;
-                font-family: "Space Mono", monospace;
+                font-family: "Inter", sans-serif;
+                font-weight: 500;
+                letter-spacing: 0.3px;
                 margin: 2px 4px 2px 0;
             }
-            .ai-positive { background: #0D3320; color: #4DB876; border: 1px solid #1B6B3A; }
-            .ai-negative { background: #2D0D0D; color: #E05555; border: 1px solid #8B1A1A; }
-            .ai-neutral  { background: #0D1A3A; color: #5B8DD9; border: 1px solid #1E3A6E; }
+            .ai-pill-purple { background: rgba(139,92,246,0.15); color: #A78BFA; border: 1px solid rgba(139,92,246,0.3); }
+            .ai-pill-blue   { background: rgba(59,130,246,0.12); color: #60A5FA; border: 1px solid rgba(59,130,246,0.25); }
+            .ai-pill-green  { background: rgba(34,197,94,0.12);  color: #4ADE80; border: 1px solid rgba(34,197,94,0.25); }
+            .ai-pill-red    { background: rgba(239,68,68,0.12);  color: #F87171; border: 1px solid rgba(239,68,68,0.25); }
+            .ai-pill-amber  { background: rgba(245,158,11,0.12); color: #FCD34D; border: 1px solid rgba(245,158,11,0.25); }
+            .ticker-tag {
+                display: inline;
+                color: #60A5FA;
+                font-family: "DM Mono", monospace;
+                font-size: 12px;
+                font-weight: 500;
+            }
+            .pct-pos { color: #4ADE80; font-weight: 600; font-family: "DM Mono", monospace; }
+            .pct-neg { color: #F87171; font-weight: 600; font-family: "DM Mono", monospace; }
         </style>
     </head>
     <body>
@@ -544,7 +569,7 @@ STYLE = {
     "page": {
         "background": "#090D1A",
         "minHeight": "100vh",
-        "fontFamily": "'Syne', sans-serif",
+        "fontFamily": "'Inter', sans-serif",
         "color": "#E8EDF5",
         "padding": "0",
         "margin": "0",
@@ -558,7 +583,7 @@ STYLE = {
         "justifyContent": "space-between",
     },
     "title": {
-        "fontFamily": "'Syne', sans-serif",
+        "fontFamily": "'Inter', sans-serif",
         "fontWeight": "800",
         "fontSize": "22px",
         "color": "#FFFFFF",
@@ -567,7 +592,7 @@ STYLE = {
         "margin": "0",
     },
     "subtitle": {
-        "fontFamily": "'Space Mono', monospace",
+        "fontFamily": "'DM Mono', monospace",
         "fontSize": "11px",
         "color": "#5B8DD9",
         "letterSpacing": "1px",
@@ -584,7 +609,7 @@ STYLE = {
         "marginBottom": "20px",
     },
     "card_title": {
-        "fontFamily": "'Syne', sans-serif",
+        "fontFamily": "'Inter', sans-serif",
         "fontWeight": "700",
         "fontSize": "13px",
         "color": "#5B8DD9",
@@ -598,7 +623,7 @@ STYLE = {
         "border": "1px solid #1E3A6E",
         "borderRadius": "4px",
         "padding": "8px 12px",
-        "fontFamily": "'Space Mono', monospace",
+        "fontFamily": "'DM Mono', monospace",
         "fontSize": "12px",
         "cursor": "pointer",
         "marginRight": "12px",
@@ -609,7 +634,7 @@ STYLE = {
         "borderRadius": "4px",
         "color": "white",
         "padding": "8px 20px",
-        "fontFamily": "'Syne', sans-serif",
+        "fontFamily": "'Inter', sans-serif",
         "fontWeight": "700",
         "fontSize": "12px",
         "letterSpacing": "1px",
@@ -622,7 +647,7 @@ STYLE = {
         "borderRadius": "4px",
         "color": "white",
         "padding": "8px 20px",
-        "fontFamily": "'Syne', sans-serif",
+        "fontFamily": "'Inter', sans-serif",
         "fontWeight": "700",
         "fontSize": "12px",
         "letterSpacing": "1px",
@@ -636,7 +661,7 @@ STYLE = {
         "borderLeft": "3px solid #7B3DB8",
         "borderRadius": "4px",
         "padding": "16px",
-        "fontFamily": "'Space Mono', monospace",
+        "fontFamily": "'DM Mono', monospace",
         "fontSize": "12px",
         "color": "#C8B8E8",
         "lineHeight": "1.7",
@@ -651,14 +676,14 @@ STYLE = {
         "textAlign": "center",
     },
     "metric_value": {
-        "fontFamily": "'Space Mono', monospace",
+        "fontFamily": "'DM Mono', monospace",
         "fontSize": "24px",
         "fontWeight": "700",
         "color": "#FFFFFF",
         "margin": "0",
     },
     "metric_label": {
-        "fontFamily": "'Syne', sans-serif",
+        "fontFamily": "'Inter', sans-serif",
         "fontSize": "10px",
         "color": "#5B8DD9",
         "letterSpacing": "1.5px",
@@ -670,7 +695,7 @@ STYLE = {
         "border": "none",
         "color": "#8899CC",
         "padding": "10px 20px",
-        "fontFamily": "'Syne', sans-serif",
+        "fontFamily": "'Inter', sans-serif",
         "fontWeight": "700",
         "fontSize": "11px",
         "letterSpacing": "1px",
@@ -683,7 +708,7 @@ STYLE = {
         "border": "none",
         "color": "#5B8DD9",
         "padding": "10px 20px",
-        "fontFamily": "'Syne', sans-serif",
+        "fontFamily": "'Inter', sans-serif",
         "fontWeight": "700",
         "fontSize": "11px",
         "letterSpacing": "1px",
@@ -696,7 +721,7 @@ PLOTLY_TEMPLATE = {
     "layout": {
         "paper_bgcolor": "#090D1A",
         "plot_bgcolor": "#0D1530",
-        "font": {"family": "Space Mono, monospace", "color": "#C8D8F0"},
+        "font": {"family": "DM Mono, monospace", "color": "#C8D8F0"},
         "xaxis": {"gridcolor": "#1A2A4A", "linecolor": "#1E3A6E", "tickfont": {"size": 10}},
         "yaxis": {"gridcolor": "#1A2A4A", "linecolor": "#1E3A6E", "tickfont": {"size": 10}},
         "legend": {"bgcolor": "#0A1225", "bordercolor": "#1E3A6E", "borderwidth": 1},
@@ -727,7 +752,7 @@ app.layout = html.Div(style=STYLE["page"], children=[
         ]),
         html.Div([
             html.Span(id="last-updated", style={
-                "fontFamily": "'Space Mono', monospace",
+                "fontFamily": "'DM Mono', monospace",
                 "fontSize": "11px", "color": "#3DB8A5",
             }),
         ])
@@ -744,7 +769,7 @@ app.layout = html.Div(style=STYLE["page"], children=[
                         options=period_options,
                         value="1y",
                         clearable=False,
-                        style={"width": "160px", "fontFamily": "Space Mono, monospace", "fontSize": "12px"},
+                        style={"width": "160px", "fontFamily": "DM Mono, monospace", "fontSize": "12px"},
                     )
                 ]),
                 html.Div([
@@ -754,7 +779,7 @@ app.layout = html.Div(style=STYLE["page"], children=[
                         options=[{"label": "All Layers (Overview)", "value": "ALL"}] + layer_options,
                         value="ALL",
                         clearable=False,
-                        style={"width": "280px", "fontFamily": "Space Mono, monospace", "fontSize": "12px"},
+                        style={"width": "280px", "fontFamily": "DM Mono, monospace", "fontSize": "12px"},
                     )
                 ]),
                 html.Div([
@@ -768,7 +793,7 @@ app.layout = html.Div(style=STYLE["page"], children=[
                         id="benchmark-select",
                         options=[{"label": f"  {v}", "value": k} for k, v in BENCHMARKS.items()],
                         value=["SPY"],
-                        style={"fontFamily": "Space Mono, monospace", "fontSize": "11px", "color": "#8899CC"},
+                        style={"fontFamily": "DM Mono, monospace", "fontSize": "11px", "color": "#8899CC"},
                         inputStyle={"marginRight": "4px"},
                         labelStyle={"marginRight": "16px", "display": "inline-block"},
                     )
@@ -833,7 +858,7 @@ def refresh_data(n_clicks, n_intervals, period):
 )
 def update_summary(data_json, period, selected_layer):
     if not data_json:
-        return html.P("Loading data...", style={"color": "#5B8DD9", "fontFamily": "Space Mono"})
+        return html.P("Loading data...", style={"color": "#5B8DD9", "fontFamily": "DM Mono"})
     
     df = pd.read_json(StringIO(data_json)).set_index("Date")
     df.index = pd.to_datetime(df.index)
@@ -905,7 +930,7 @@ def render_tab(tab, data_json, ai_text_data, period, selected_layer, benchmarks)
     if not data_json:
         return html.Div("Fetching market data...", style={
             "textAlign": "center", "padding": "60px",
-            "color": "#5B8DD9", "fontFamily": "Space Mono, monospace"
+            "color": "#5B8DD9", "fontFamily": "DM Mono, monospace"
         })
 
     df = pd.read_json(StringIO(data_json)).set_index("Date")
@@ -931,7 +956,7 @@ def make_fig(fig):
     fig.update_layout(
         paper_bgcolor="#090D1A",
         plot_bgcolor="#0D1530",
-        font=dict(family="Space Mono, monospace", color="#C8D8F0", size=11),
+        font=dict(family="DM Mono, monospace", color="#C8D8F0", size=11),
         xaxis=dict(gridcolor="#1A2A4A", linecolor="#1E3A6E"),
         yaxis=dict(gridcolor="#1A2A4A", linecolor="#1E3A6E"),
         legend=dict(bgcolor="#0A1225", bordercolor="#1E3A6E", borderwidth=1),
@@ -939,7 +964,7 @@ def make_fig(fig):
         hoverlabel=dict(
             bgcolor="#0A1225",
             bordercolor="#1E3A6E",
-            font=dict(family="Space Mono, monospace", size=11, color="#E8EDF5")
+            font=dict(family="DM Mono, monospace", size=11, color="#E8EDF5")
         )
     )
     return fig
@@ -1007,7 +1032,7 @@ def render_overview(df, period, benchmarks):
         table_rows.append(
             html.Tr([
                 html.Td(row["Layer"], style={"padding": "10px 14px", "borderBottom": "1px solid #1E3A6E", "color": "#C8D8F0"}),
-                html.Td(row["Return %"], style={"padding": "10px 14px", "borderBottom": "1px solid #1E3A6E", "color": color, "fontFamily": "Space Mono, monospace", "fontWeight": "700", "textAlign": "right"}),
+                html.Td(row["Return %"], style={"padding": "10px 14px", "borderBottom": "1px solid #1E3A6E", "color": color, "fontFamily": "DM Mono, monospace", "fontWeight": "700", "textAlign": "right"}),
                 html.Td(str(row["Stocks"]), style={"padding": "10px 14px", "borderBottom": "1px solid #1E3A6E", "color": "#8899CC", "textAlign": "center"}),
                 html.Td(row["Status"], style={"padding": "10px 14px", "borderBottom": "1px solid #1E3A6E", "color": color, "fontSize": "11px"}),
             ])
@@ -1015,13 +1040,13 @@ def render_overview(df, period, benchmarks):
     
     table = html.Table([
         html.Thead(html.Tr([
-            html.Th("LAYER", style={"padding": "10px 14px", "color": "#5B8DD9", "fontSize": "11px", "letterSpacing": "1px", "textAlign": "left", "fontFamily": "Syne, sans-serif", "borderBottom": "2px solid #1E3A6E"}),
-            html.Th("PERIOD RETURN", style={"padding": "10px 14px", "color": "#5B8DD9", "fontSize": "11px", "letterSpacing": "1px", "textAlign": "right", "fontFamily": "Syne, sans-serif", "borderBottom": "2px solid #1E3A6E"}),
-            html.Th("# STOCKS", style={"padding": "10px 14px", "color": "#5B8DD9", "fontSize": "11px", "letterSpacing": "1px", "textAlign": "center", "fontFamily": "Syne, sans-serif", "borderBottom": "2px solid #1E3A6E"}),
-            html.Th("VS BASELINE", style={"padding": "10px 14px", "color": "#5B8DD9", "fontSize": "11px", "letterSpacing": "1px", "fontFamily": "Syne, sans-serif", "borderBottom": "2px solid #1E3A6E"}),
+            html.Th("LAYER", style={"padding": "10px 14px", "color": "#5B8DD9", "fontSize": "11px", "letterSpacing": "1px", "textAlign": "left", "fontFamily": "Inter, sans-serif", "borderBottom": "2px solid #1E3A6E"}),
+            html.Th("PERIOD RETURN", style={"padding": "10px 14px", "color": "#5B8DD9", "fontSize": "11px", "letterSpacing": "1px", "textAlign": "right", "fontFamily": "Inter, sans-serif", "borderBottom": "2px solid #1E3A6E"}),
+            html.Th("# STOCKS", style={"padding": "10px 14px", "color": "#5B8DD9", "fontSize": "11px", "letterSpacing": "1px", "textAlign": "center", "fontFamily": "Inter, sans-serif", "borderBottom": "2px solid #1E3A6E"}),
+            html.Th("VS BASELINE", style={"padding": "10px 14px", "color": "#5B8DD9", "fontSize": "11px", "letterSpacing": "1px", "fontFamily": "Inter, sans-serif", "borderBottom": "2px solid #1E3A6E"}),
         ])),
         html.Tbody(table_rows)
-    ], style={"width": "100%", "borderCollapse": "collapse", "fontFamily": "Space Mono, monospace", "fontSize": "12px"})
+    ], style={"width": "100%", "borderCollapse": "collapse", "fontFamily": "DM Mono, monospace", "fontSize": "12px"})
     
     return html.Div(style=STYLE["card"], children=[
         dcc.Graph(figure=fig, config={"displayModeBar": False}),
@@ -1103,7 +1128,7 @@ def render_heatmap(df):
         zmid=0,
         text=[[f"{v:.1f}%" for v in row] for row in combined.values],
         texttemplate="%{text}",
-        textfont={"size": 10, "family": "Space Mono, monospace"},
+        textfont={"size": 10, "family": "DM Mono, monospace"},
         colorbar=dict(
             title="Monthly %",
             tickfont=dict(color="#C8D8F0", size=10),
@@ -1141,7 +1166,7 @@ def render_drilldown(df, selected_layer):
         marker_color=colors,
         text=[f"{v:+.1f}%" for v in stats["Period %"]],
         textposition="outside",
-        textfont=dict(family="Space Mono, monospace", size=10),
+        textfont=dict(family="DM Mono, monospace", size=10),
         hovertemplate="<b>%{x}</b><br>Return: %{y:.2f}%<extra></extra>"
     ))
     fig.add_hline(y=0, line_color="#1E3A6E", line_width=1)
@@ -1161,14 +1186,14 @@ def render_drilldown(df, selected_layer):
         table_rows.append(html.Tr([
             html.Td(row["Ticker"], style={"padding": "9px 14px", "color": "#5B8DD9", "fontWeight": "700", "borderBottom": "1px solid #1A2A4A"}),
             html.Td(row["Name"], style={"padding": "9px 14px", "color": "#C8D8F0", "borderBottom": "1px solid #1A2A4A"}),
-            html.Td(f"${row['Price']:,.2f}", style={"padding": "9px 14px", "color": "#E8EDF5", "fontFamily": "Space Mono", "borderBottom": "1px solid #1A2A4A", "textAlign": "right"}),
-            html.Td(f"{'+' if row['1D %'] >= 0 else ''}{row['1D %']:.2f}%", style={"padding": "9px 14px", "color": d_color, "fontFamily": "Space Mono", "borderBottom": "1px solid #1A2A4A", "textAlign": "right"}),
-            html.Td(f"{'+' if row['Period %'] >= 0 else ''}{row['Period %']:.1f}%", style={"padding": "9px 14px", "color": color, "fontFamily": "Space Mono", "fontWeight": "700", "borderBottom": "1px solid #1A2A4A", "textAlign": "right"}),
-            html.Td(f"${row['52W High']:,.2f}", style={"padding": "9px 14px", "color": "#8899CC", "fontFamily": "Space Mono", "borderBottom": "1px solid #1A2A4A", "textAlign": "right", "fontSize": "11px"}),
-            html.Td(f"${row['52W Low']:,.2f}", style={"padding": "9px 14px", "color": "#8899CC", "fontFamily": "Space Mono", "borderBottom": "1px solid #1A2A4A", "textAlign": "right", "fontSize": "11px"}),
+            html.Td(f"${row['Price']:,.2f}", style={"padding": "9px 14px", "color": "#E8EDF5", "fontFamily": "DM Mono", "borderBottom": "1px solid #1A2A4A", "textAlign": "right"}),
+            html.Td(f"{'+' if row['1D %'] >= 0 else ''}{row['1D %']:.2f}%", style={"padding": "9px 14px", "color": d_color, "fontFamily": "DM Mono", "borderBottom": "1px solid #1A2A4A", "textAlign": "right"}),
+            html.Td(f"{'+' if row['Period %'] >= 0 else ''}{row['Period %']:.1f}%", style={"padding": "9px 14px", "color": color, "fontFamily": "DM Mono", "fontWeight": "700", "borderBottom": "1px solid #1A2A4A", "textAlign": "right"}),
+            html.Td(f"${row['52W High']:,.2f}", style={"padding": "9px 14px", "color": "#8899CC", "fontFamily": "DM Mono", "borderBottom": "1px solid #1A2A4A", "textAlign": "right", "fontSize": "11px"}),
+            html.Td(f"${row['52W Low']:,.2f}", style={"padding": "9px 14px", "color": "#8899CC", "fontFamily": "DM Mono", "borderBottom": "1px solid #1A2A4A", "textAlign": "right", "fontSize": "11px"}),
         ]))
     
-    th_style = {"padding": "10px 14px", "color": "#5B8DD9", "fontSize": "10px", "letterSpacing": "1px", "textAlign": "left", "fontFamily": "Syne", "borderBottom": "2px solid #1E3A6E", "textTransform": "uppercase"}
+    th_style = {"padding": "10px 14px", "color": "#5B8DD9", "fontSize": "10px", "letterSpacing": "1px", "textAlign": "left", "fontFamily": "Inter", "borderBottom": "2px solid #1E3A6E", "textTransform": "uppercase"}
     table = html.Table([
         html.Thead(html.Tr([
             html.Th("Ticker", style=th_style), html.Th("Name", style=th_style),
@@ -1179,10 +1204,10 @@ def render_drilldown(df, selected_layer):
             html.Th("52W Low", style={**th_style, "textAlign": "right"}),
         ])),
         html.Tbody(table_rows)
-    ], style={"width": "100%", "borderCollapse": "collapse", "fontSize": "12px", "fontFamily": "Space Mono, monospace"})
+    ], style={"width": "100%", "borderCollapse": "collapse", "fontSize": "12px", "fontFamily": "DM Mono, monospace"})
     
     return html.Div(style=STYLE["card"], children=[
-        html.P(layer_data["description"], style={"color": "#8899CC", "fontFamily": "Space Mono, monospace", "fontSize": "11px", "marginBottom": "16px"}),
+        html.P(layer_data["description"], style={"color": "#8899CC", "fontFamily": "DM Mono, monospace", "fontSize": "11px", "marginBottom": "16px"}),
         dcc.Graph(figure=fig, config={"displayModeBar": False}),
         html.P("DETAILED METRICS", style={**STYLE["card_title"], "marginTop": "20px"}),
         table
@@ -1222,7 +1247,7 @@ def render_scatter(df):
         labels={"period": "Period Return %", "1d": "1-Day Return %", "layer": "Layer"},
         title="CROSS-LAYER SCATTER: Period Return vs. 1-Day Momentum",
     )
-    fig.update_traces(textposition="top center", textfont=dict(size=8, family="Space Mono, monospace"))
+    fig.update_traces(textposition="top center", textfont=dict(size=8, family="DM Mono, monospace"))
     fig.add_vline(x=0, line_color="#1E3A6E", line_dash="dot")
     fig.add_hline(y=0, line_color="#1E3A6E", line_dash="dot")
     fig.update_layout(height=560)
@@ -1269,7 +1294,7 @@ def render_movers(df):
         marker_color=top10["Color"].tolist(),
         text=[f"+{v:.1f}%" for v in top10["Period %"]],
         textposition="outside",
-        textfont=dict(size=10, family="Space Mono"),
+        textfont=dict(size=10, family="DM Mono"),
         name="Gainers",
         hovertemplate="<b>%{y}</b><br>Return: %{x:.1f}%<extra></extra>"
     ), row=1, col=1)
@@ -1279,7 +1304,7 @@ def render_movers(df):
         marker_color="#E05555",
         text=[f"{v:.1f}%" for v in bot10["Period %"]],
         textposition="outside",
-        textfont=dict(size=10, family="Space Mono"),
+        textfont=dict(size=10, family="DM Mono"),
         name="Laggards",
         hovertemplate="<b>%{y}</b><br>Return: %{x:.1f}%<extra></extra>"
     ), row=1, col=2)
@@ -1302,7 +1327,7 @@ def render_movers(df):
             rows.append(html.Tr([
                 html.Td(r["Ticker"], style={"padding": "8px 12px", "color": "#5B8DD9", "fontWeight": "700", "borderBottom": "1px solid #1A2A4A", "fontSize": "12px"}),
                 html.Td(r["Name"][:22], style={"padding": "8px 12px", "color": "#C8D8F0", "borderBottom": "1px solid #1A2A4A", "fontSize": "11px"}),
-                html.Td(f"{'+' if r['1D %'] >= 0 else ''}{r['1D %']:.2f}%", style={"padding": "8px 12px", "color": color, "fontFamily": "Space Mono", "fontWeight": "700", "borderBottom": "1px solid #1A2A4A", "fontSize": "12px", "textAlign": "right"}),
+                html.Td(f"{'+' if r['1D %'] >= 0 else ''}{r['1D %']:.2f}%", style={"padding": "8px 12px", "color": color, "fontFamily": "DM Mono", "fontWeight": "700", "borderBottom": "1px solid #1A2A4A", "fontSize": "12px", "textAlign": "right"}),
             ]))
         return html.Div([
             html.P(title, style={**STYLE["card_title"], "color": color}),
@@ -1321,165 +1346,263 @@ def render_movers(df):
 
 def render_ai_tab(ai_text_data, selected_layer, period):
     """Render the dedicated AI Analysis tab with modern card UI."""
+    import re
 
-    # Empty state — not yet run
+    # ── Empty state ──────────────────────────────────────────────────────────
     if not ai_text_data:
-        return html.Div(style={**STYLE["card"], "textAlign": "center", "padding": "60px 40px"}, children=[
-            html.Div("✦", style={"fontSize": "48px", "color": "#3A1A6E", "marginBottom": "16px"}),
-            html.P("NO ANALYSIS RUN YET", style={
-                "fontFamily": "Syne, sans-serif", "fontWeight": "800",
-                "fontSize": "16px", "color": "#5B3A8C", "letterSpacing": "3px", "margin": "0 0 12px 0"
+        return html.Div(style={**STYLE["card"], "textAlign": "center", "padding": "72px 40px"}, children=[
+            html.Div(style={
+                "width": "64px", "height": "64px", "borderRadius": "50%",
+                "background": "rgba(139,92,246,0.12)", "border": "1px solid rgba(139,92,246,0.3)",
+                "display": "flex", "alignItems": "center", "justifyContent": "center",
+                "margin": "0 auto 20px auto", "fontSize": "28px"
+            }, children="✦"),
+            html.P("No analysis yet", style={
+                "fontFamily": "Inter, sans-serif", "fontWeight": "600",
+                "fontSize": "18px", "color": "#E2E8F0", "margin": "0 0 10px 0", "letterSpacing": "-0.3px"
             }),
-            html.P("Select a time period and layer, then click the  ✦ AI ANALYSIS  button above to generate a Claude-powered report.",
-                style={"color": "#556688", "fontFamily": "Space Mono, monospace", "fontSize": "12px", "lineHeight": "1.8", "maxWidth": "480px", "margin": "0 auto"}
+            html.P("Select a time period and layer above, then click  ✦ AI ANALYSIS  to generate a Claude-powered report.",
+                style={"color": "#475569", "fontFamily": "Inter, sans-serif", "fontSize": "14px",
+                       "lineHeight": "1.7", "maxWidth": "420px", "margin": "0 auto", "fontWeight": "400"}
             ),
         ])
 
-    raw_text = ai_text_data.get("text", "")
-    scope     = ai_text_data.get("scope", selected_layer)
+    raw_text   = ai_text_data.get("text", "")
+    scope      = ai_text_data.get("scope", selected_layer)
     period_lbl = ai_text_data.get("period", period)
     timestamp  = ai_text_data.get("timestamp", "")
 
-    # Parse the markdown-style sections Claude returns into styled cards
+    # ── Strip ALL markdown symbols ───────────────────────────────────────────
+    def clean_text(text):
+        text = re.sub(r'\*{1,3}(.*?)\*{1,3}', r'\1', text)    # **bold**, *italic*
+        text = re.sub(r'#{1,6}\s*', '', text)                   # ### headers
+        text = re.sub(r'^[-*_]{3,}\s*$', '', text, flags=re.M) # horizontal rules
+        text = re.sub(r'`{1,3}(.*?)`{1,3}', r'\1', text)       # `code`
+        text = re.sub(r'\[(.*?)\]\(.*?\)', r'\1', text)         # [links](url)
+        text = re.sub(r'[ \t]+\n', '\n', text)
+        text = re.sub(r'\n{3,}', '\n\n', text)
+        return text.strip()
+
+    # ── Inline highlights: tickers blue, % green/red ─────────────────────────
+    SKIP_WORDS = {
+        "AI","THE","AND","FOR","BUT","NOT","WITH","THIS","FROM","THAT","HAVE",
+        "WILL","ARE","ITS","WAS","HAS","ALL","NEW","ONE","TWO","CAN","MAY",
+        "TOP","KEY","LOW","HIGH","OVER","NEXT","LAST","EACH","YEAR","THAN",
+        "ALSO","INTO","VERY","EVEN","JUST","MOST","ONLY","SUCH","BOTH","MORE",
+        "LESS","LONG","TERM","NEAR","RISK","WELL","BEEN","THEY","THEM","FULL",
+        "HALF","WIDE","DEEP","BIG","DUE","SET","LED","YET","VS","EX","US",
+        "EU","GDP","EPS","PE","YOY","QOQ","CEO","CFO","CTO","IPO","ETF",
+    }
+
+    def highlight_inline(text):
+        text = re.sub(
+            r'([+\-]?\d+\.?\d*%)',
+            lambda m: (
+                f'<span class="pct-pos">{m.group(1)}</span>'
+                if not m.group(1).startswith("-")
+                else f'<span class="pct-neg">{m.group(1)}</span>'
+            ),
+            text
+        )
+        text = re.sub(
+            r'\b([A-Z]{2,5})\b(?![a-z])',
+            lambda m: (
+                f'<span class="ticker-tag">{m.group(1)}</span>'
+                if m.group(1) not in SKIP_WORDS
+                else m.group(1)
+            ),
+            text
+        )
+        return text
+
+    # ── Parse numbered sections ───────────────────────────────────────────────
     def parse_sections(text):
-        """Split Claude's numbered response into section cards."""
-        import re
-        # Match "1. **Title**: content" or "**Title**\ncontent"
-        pattern = re.compile(r'\d+\.\s+\*\*(.*?)\*\*[:\s]*(.*?)(?=\n\d+\.\s+\*\*|\Z)', re.DOTALL)
+        text = clean_text(text)
+
+        pattern = re.compile(
+            r'^\d+\.\s+([^\n:]+?)(?::\s*|\n)(.*?)(?=^\d+\.\s+|\Z)',
+            re.MULTILINE | re.DOTALL
+        )
         matches = pattern.findall(text)
 
-        section_icons = {
-            "Key Outperformers": ("▲", "#4DB876", "#0D3320", "#1B6B3A"),
-            "Laggards":          ("▼", "#E05555", "#2D0D0D", "#8B1A1A"),
-            "Layer Thesis":      ("◈", "#5B8DD9", "#0D1A3A", "#1E3A6E"),
-            "Stack Flow":        ("⟳", "#5B8DD9", "#0D1A3A", "#1E3A6E"),
-            "Notable Signal":    ("◆", "#F0A057", "#2A1800", "#7A3800"),
-            "Investment Positioning": ("$", "#3DB8A5", "#0D2A28", "#1D7A8C"),
-            "Risk Factor":       ("⚠", "#E05555", "#2D0D0D", "#8B1A1A"),
-            "Macro Signal":      ("~", "#B366E0", "#1A0D2A", "#5B1A8C"),
-            "Contrarian Opportunity": ("◎", "#D4B800", "#1A1600", "#7A6B00"),
-            "Leading vs. Lagging Layers": ("↕", "#5B8DD9", "#0D1A3A", "#1E3A6E"),
+        section_cfg = {
+            "Key Outperformers":           ("#4ADE80", "#052E16", "#166534", "↑"),
+            "Laggards":                    ("#F87171", "#1C0A0A", "#7F1D1D", "↓"),
+            "Layer Thesis":                ("#60A5FA", "#0C1A2E", "#1E40AF", "◈"),
+            "Stack Flow":                  ("#60A5FA", "#0C1A2E", "#1E40AF", "⟳"),
+            "Notable Signal":              ("#FCD34D", "#1C1200", "#78350F", "◆"),
+            "Investment Positioning":      ("#34D399", "#061A14", "#065F46", "$"),
+            "Risk Factor":                 ("#F87171", "#1C0A0A", "#7F1D1D", "⚠"),
+            "Macro Signal":                ("#C084FC", "#160B2C", "#6B21A8", "≈"),
+            "Contrarian Opportunity":      ("#FCD34D", "#1C1200", "#78350F", "◎"),
+            "Leading vs. Lagging Layers":  ("#60A5FA", "#0C1A2E", "#1E40AF", "↕"),
         }
-        default_icon = ("•", "#8899CC", "#0D1A3A", "#1E3A6E")
+        default_cfg = ("#94A3B8", "#0F172A", "#334155", "·")
 
         cards = []
         if matches:
             for title, content in matches:
-                title = title.strip()
-                content = content.strip()
-                icon, text_color, bg, border_color = section_icons.get(title, default_icon)
+                title   = clean_text(title.strip())
+                content = clean_text(content.strip())
+                accent, bg, border, icon = section_cfg.get(title, default_cfg)
 
-                # Highlight tickers (all-caps 2-5 char words) and percentages
-                import re as re2
-                def highlight(c):
-                    c = re2.sub(r'\b([A-Z]{2,5})\b(?!\s*:)', lambda m:
-                        f'<span style="color:#5B8DD9;font-weight:700;font-family:Space Mono,monospace">{m.group(1)}</span>', c)
-                    c = re2.sub(r'([+-]?\d+\.?\d*%)', lambda m:
-                        f'<span style="color:{"#4DB876" if not m.group(1).startswith("-") else "#E05555"};font-weight:700">{m.group(1)}</span>', c)
-                    return c
+                paragraphs = [p.strip() for p in content.split('\n\n') if p.strip()]
+                para_els = [
+                    html.Div(
+                        dangerously_allow_html=True,
+                        children=highlight_inline(p),
+                        style={
+                            "fontFamily": "Inter, sans-serif",
+                            "fontSize": "14px",
+                            "lineHeight": "1.75",
+                            "color": "#CBD5E1",
+                            "marginBottom": "8px",
+                            "fontWeight": "400",
+                        }
+                    )
+                    for p in paragraphs
+                ]
 
-                highlighted = highlight(content)
-
-                cards.append(
-                    html.Div(className="ai-section-card", style={
+                cards.append(html.Div(
+                    className="ai-section-card",
+                    style={
                         "background": bg,
-                        "border": f"1px solid {border_color}",
-                        "borderLeft": f"4px solid {text_color}",
-                        "borderRadius": "6px",
-                        "padding": "18px 20px",
-                        "marginBottom": "12px",
-                    }, children=[
-                        html.Div(style={"display": "flex", "alignItems": "center", "marginBottom": "10px", "gap": "10px"}, children=[
-                            html.Span(icon, style={"fontSize": "18px", "color": text_color}),
-                            html.Span(title.upper(), style={
-                                "fontFamily": "Syne, sans-serif", "fontWeight": "800",
-                                "fontSize": "11px", "letterSpacing": "2px", "color": text_color
-                            }),
-                        ]),
+                        "border": f"1px solid {border}",
+                        "borderLeft": f"3px solid {accent}",
+                        "borderRadius": "10px",
+                        "padding": "20px 24px",
+                        "marginBottom": "10px",
+                    },
+                    children=[
                         html.Div(
-                            dangerously_allow_html=True,
-                            children=highlighted,
-                            style={
-                                "fontFamily": "Space Mono, monospace",
-                                "fontSize": "12px", "lineHeight": "1.9",
-                                "color": "#C8D8F0", "whiteSpace": "pre-wrap"
-                            }
-                        )
-                    ])
-                )
+                            style={"display": "flex", "alignItems": "center",
+                                   "gap": "10px", "marginBottom": "14px"},
+                            children=[
+                                html.Span(icon, style={
+                                    "fontSize": "13px", "color": accent,
+                                    "width": "24px", "height": "24px",
+                                    "display": "inline-flex", "alignItems": "center",
+                                    "justifyContent": "center",
+                                    "background": "rgba(255,255,255,0.06)",
+                                    "borderRadius": "6px", "flexShrink": "0"
+                                }),
+                                html.Span(title, style={
+                                    "fontFamily": "Inter, sans-serif",
+                                    "fontWeight": "600",
+                                    "fontSize": "13px",
+                                    "color": accent,
+                                    "letterSpacing": "0.1px",
+                                }),
+                            ]
+                        ),
+                        html.Div(para_els),
+                    ]
+                ))
         else:
-            # Fallback: render raw text nicely if no sections parsed
-            cards.append(html.Div(style={
-                "background": "#0A0D1E", "border": "1px solid #2A1A5E",
-                "borderRadius": "6px", "padding": "20px",
-                "fontFamily": "Space Mono, monospace", "fontSize": "12px",
-                "lineHeight": "1.9", "color": "#C8D8F0", "whiteSpace": "pre-wrap"
-            }, children=raw_text))
+            # Fallback — render as clean paragraphs
+            paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
+            for p in paragraphs:
+                cards.append(html.Div(
+                    dangerously_allow_html=True,
+                    children=highlight_inline(p),
+                    style={
+                        "fontFamily": "Inter, sans-serif", "fontSize": "14px",
+                        "lineHeight": "1.75", "color": "#CBD5E1",
+                        "marginBottom": "14px", "fontWeight": "400",
+                    }
+                ))
         return cards
 
-    scope_label = scope if scope != "ALL" else "All Layers — Full Stack"
-    period_map = {"3mo": "3 Months", "6mo": "6 Months", "1y": "1 Year",
-                  "2y": "2 Years", "3y": "3 Years", "5y": "5 Years"}
+    # ── Labels ───────────────────────────────────────────────────────────────
+    scope_label    = scope if scope != "ALL" else "All Layers — Full Stack"
+    period_map     = {"3mo": "3 Months", "6mo": "6 Months", "1y": "1 Year",
+                      "2y": "2 Years",   "3y": "3 Years",   "5y": "5 Years"}
     period_display = period_map.get(period_lbl, period_lbl)
 
     return html.Div([
-        # Header card
+
+        # ── Report header ─────────────────────────────────────────────────────
         html.Div(style={
-            "background": "linear-gradient(135deg, #0D0A1E 0%, #160D2E 50%, #0D0A1E 100%)",
-            "border": "1px solid #2A1A5E",
-            "borderRadius": "8px",
-            "padding": "24px 28px",
+            "background": "linear-gradient(135deg, #0F0A1F 0%, #1A0D35 60%, #0F0A1F 100%)",
+            "border": "1px solid rgba(139,92,246,0.25)",
+            "borderRadius": "12px",
+            "padding": "28px 32px",
             "marginBottom": "16px",
             "display": "flex",
             "justifyContent": "space-between",
-            "alignItems": "center",
+            "alignItems": "flex-start",
             "flexWrap": "wrap",
-            "gap": "12px",
+            "gap": "16px",
         }, children=[
             html.Div([
-                html.Div(style={"display": "flex", "alignItems": "center", "gap": "12px", "marginBottom": "6px"}, children=[
-                    html.Span("✦", style={"fontSize": "22px", "color": "#9B66E0"}),
-                    html.Span("CLAUDE AI ANALYSIS", style={
-                        "fontFamily": "Syne, sans-serif", "fontWeight": "800",
-                        "fontSize": "18px", "letterSpacing": "3px", "color": "#FFFFFF"
-                    }),
+                html.Div(style={"display": "flex", "alignItems": "center", "gap": "12px", "marginBottom": "12px"}, children=[
+                    html.Div(style={
+                        "width": "36px", "height": "36px",
+                        "background": "rgba(139,92,246,0.2)",
+                        "border": "1px solid rgba(139,92,246,0.4)",
+                        "borderRadius": "10px",
+                        "display": "flex", "alignItems": "center", "justifyContent": "center",
+                        "fontSize": "16px", "color": "#A78BFA",
+                    }, children="✦"),
+                    html.Div([
+                        html.Span("AI Analysis Report", style={
+                            "fontFamily": "Inter, sans-serif", "fontWeight": "700",
+                            "fontSize": "20px", "color": "#F1F5F9",
+                            "letterSpacing": "-0.5px", "display": "block",
+                        }),
+                        html.Span("Powered by Claude", style={
+                            "fontFamily": "Inter, sans-serif", "fontSize": "12px",
+                            "color": "#7C3AED", "fontWeight": "500",
+                        }),
+                    ])
                 ]),
-                html.Div(style={"display": "flex", "gap": "8px", "flexWrap": "wrap", "marginTop": "4px"}, children=[
-                    html.Span(scope_label, className="ai-metric-pill ai-neutral"),
-                    html.Span(period_display, className="ai-metric-pill ai-neutral"),
-                    html.Span(f"Generated {timestamp}", className="ai-metric-pill ai-neutral") if timestamp else html.Span(""),
+                html.Div(style={"display": "flex", "gap": "6px", "flexWrap": "wrap"}, children=[
+                    html.Span(scope_label,    className="ai-pill ai-pill-purple"),
+                    html.Span(period_display, className="ai-pill ai-pill-blue"),
+                    html.Span(f"Generated {timestamp}", className="ai-pill ai-pill-blue") if timestamp else html.Span(""),
                 ]),
             ]),
-            html.Div(style={"textAlign": "right"}, children=[
-                html.P("Powered by", style={"color": "#556688", "fontSize": "10px", "margin": "0", "fontFamily": "Space Mono, monospace", "letterSpacing": "1px"}),
-                html.P("claude-sonnet-4-6", style={"color": "#9B66E0", "fontSize": "12px", "margin": "4px 0 0 0", "fontFamily": "Space Mono, monospace", "fontWeight": "700"}),
+            html.Div(style={
+                "background": "rgba(255,255,255,0.04)",
+                "border": "1px solid rgba(255,255,255,0.08)",
+                "borderRadius": "8px",
+                "padding": "12px 16px",
+                "textAlign": "right",
+            }, children=[
+                html.Span("Model", style={
+                    "display": "block", "color": "#475569", "fontSize": "10px",
+                    "fontWeight": "500", "letterSpacing": "0.5px",
+                    "textTransform": "uppercase", "marginBottom": "4px"
+                }),
+                html.Span("claude-sonnet-4-6", style={
+                    "color": "#A78BFA", "fontSize": "13px",
+                    "fontWeight": "600", "fontFamily": "DM Mono, monospace"
+                }),
             ]),
         ]),
 
-        # Loading wrapper
-        dcc.Loading(type="circle", color="#9B66E0", children=[
-            html.Div(id="ai-analysis-output", children=parse_sections(raw_text))
-        ]),
+        # ── Section cards ─────────────────────────────────────────────────────
+        html.Div(id="ai-analysis-output", children=parse_sections(raw_text)),
 
-        # Disclaimer
-        html.P(
-            "⚠ AI-generated analysis is for informational purposes only and does not constitute financial advice. Always conduct your own due diligence.",
-            style={"color": "#334466", "fontFamily": "Space Mono, monospace", "fontSize": "10px",
-                   "marginTop": "16px", "textAlign": "center", "letterSpacing": "0.5px"}
-        )
+        # ── Disclaimer ────────────────────────────────────────────────────────
+        html.Div(style={
+            "marginTop": "20px",
+            "padding": "14px 20px",
+            "background": "rgba(255,255,255,0.02)",
+            "border": "1px solid rgba(255,255,255,0.06)",
+            "borderRadius": "8px",
+            "display": "flex", "alignItems": "center", "gap": "10px",
+        }, children=[
+            html.Span("ⓘ", style={"color": "#334155", "fontSize": "16px", "flexShrink": "0"}),
+            html.Span(
+                "AI-generated analysis is for informational purposes only and does not constitute financial advice. Always conduct your own due diligence.",
+                style={"color": "#334155", "fontFamily": "Inter, sans-serif",
+                       "fontSize": "11px", "lineHeight": "1.5", "fontWeight": "400"}
+            ),
+        ]),
     ])
 
 
-# AI Analysis callback — runs analysis, stores result, redirects to AI tab
-@app.callback(
-    Output("ai-analysis-text-store", "data"),
-    Output("main-tabs", "value"),
-    Input("ai-analysis-btn", "n_clicks"),
-    State("price-data-store", "data"),
-    State("period-select", "value"),
-    State("layer-select", "value"),
-    prevent_initial_call=True
-)
 def run_ai_analysis(n_clicks, data_json, period, selected_layer):
     if not data_json or not n_clicks:
         return no_update, no_update
