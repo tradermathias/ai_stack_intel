@@ -1,0 +1,84 @@
+# AI Stack Benchmark Dashboard
+# Requirements & Setup Guide
+# ════════════════════════════════════════════════════════
+
+# ── INSTALL DEPENDENCIES ─────────────────────────────────
+# Run this once in your terminal:
+
+pip install yfinance pandas plotly dash dash-bootstrap-components anthropic
+
+# ── SET YOUR ANTHROPIC API KEY ───────────────────────────
+# macOS/Linux:
+export ANTHROPIC_API_KEY="sk-ant-your-key-here"
+
+# Windows (Command Prompt):
+set ANTHROPIC_API_KEY=sk-ant-your-key-here
+
+# Windows (PowerShell):
+$env:ANTHROPIC_API_KEY="sk-ant-your-key-here"
+
+# ── RUN THE DASHBOARD ────────────────────────────────────
+python ai_stack_dashboard.py
+
+# Then open your browser to: http://127.0.0.1:8050
+
+# ════════════════════════════════════════════════════════
+# WHAT THE DASHBOARD DOES
+# ════════════════════════════════════════════════════════
+#
+# DATA SOURCE: yfinance (free, real Yahoo Finance data)
+# AI ANALYSIS: Anthropic Claude API (claude-sonnet-4-6)
+#
+# TABS:
+#   Layer Overview    — All 8 layer indices on one chart + return table
+#   Performance Chart — Normalized price lines per stock/layer
+#   Heat Map          — Monthly return heatmap across all layers
+#   Company Drilldown — Bar chart + full metrics table per layer
+#   Cross-Layer Scatter — Period return vs 1-day momentum bubble chart
+#   Top Movers        — Top 10 gainers & laggards, today's movers
+#
+# CONTROLS:
+#   Period Select     — 3mo / 6mo / 1y / 2y / 3y / 5y lookback
+#   Layer Select      — Filter to a specific AI stack layer
+#   Benchmarks        — Toggle SPY / QQQ / SOXX comparison lines
+#   Refresh Button    — Manual data refresh
+#   AI Analysis       — Claude analyzes selected layer performance
+#
+# AUTO-REFRESH: Every 5 minutes during market hours
+#
+# ════════════════════════════════════════════════════════
+# LAYERS COVERED
+# ════════════════════════════════════════════════════════
+#
+#   L1 Raw Materials         12 stocks (BHP, FCX, MP, ALB, COPX ETF...)
+#   L2 Semiconductors        16 stocks (NVDA, ASML, TSM, AMAT, AMD...)
+#   L3 Compute Infrastructure 17 stocks (ANET, EQIX, VRT, SMCI, CRWV...)
+#   L4 Foundation Models      5 stocks (MSFT, GOOGL, META, AMZN, NVDA)
+#   L5 Orchestration          5 stocks (PLTR, DDOG, DT, PATH, AI)
+#   L6 Enterprise AI          9 stocks (CRM, NOW, SAP, ORCL, IBM...)
+#   L7 Governance & Identity  6 stocks (OKTA, CYBR, PANW, CRWD...)
+#   Power & Energy            9 stocks (NEE, CEG, GEV, OKLO, SMR...)
+#
+#   Benchmarks: SPY, QQQ, SOXX
+#
+# ════════════════════════════════════════════════════════
+# NOTES
+# ════════════════════════════════════════════════════════
+#
+# - ANTHROPIC_API_KEY is only needed for the AI Analysis feature.
+#   The dashboard runs fully without it; only the "AI Analysis"
+#   button will be unavailable.
+#
+# - Some tickers (LYSDY, SBGSY, etc.) are ADRs and may have
+#   limited data on yfinance. The dashboard handles missing
+#   tickers gracefully.
+#
+# - Private companies (Anthropic, OpenAI, Scale AI, etc.) are
+#   NOT included in the live market data since they have no
+#   public ticker. They appear in the DOCX research report only.
+#
+# - Layer indices are equal-weighted. Each company contributes
+#   the same weight regardless of market cap. This gives you
+#   exposure to smaller-cap names that are often overlooked.
+#
+# ════════════════════════════════════════════════════════
