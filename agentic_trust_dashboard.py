@@ -908,13 +908,22 @@ def switch_to_ai_tab(store_data):
     Output("ai-analysis-btn", "style"),
     Input("ai-analysis-btn", "n_clicks"),
     Input("ai-btn-state", "data"),
+    State("layer-select", "value"),
     prevent_initial_call=True,
 )
-def update_ai_btn(n_clicks, btn_state):
+def update_ai_btn(n_clicks, btn_state, selected_layer):
     """Show loading state while AI analysis is running."""
     from dash import ctx
-    if ctx.triggered_id == "ai-analysis-btn":
+    
+    # If user just clicked the button and we don't have a "done" state yet, show loading
+    if ctx.triggered_id == "ai-analysis-btn" and (btn_state is None or btn_state != "done"):
         return "⟳ ANALYZING...", True, {**STYLE["btn_ai"], "opacity": "0.6", "cursor": "not-allowed"}
+    
+    # Once analysis completes (btn_state == "done"), reset button to clickable
+    if btn_state == "done":
+        return "✦ AI ANALYSIS", False, STYLE["btn_ai"]
+    
+    # Default state: ready to click
     return "✦ AI ANALYSIS", False, STYLE["btn_ai"]
 
 # ── Chart helpers ─────────────────────────────────────────────────────────────
